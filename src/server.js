@@ -5,4 +5,4 @@ require('babel-core/register');
 require('babel-polyfill');
 
 // register application
-require('../src/index.js');
+require('../src/app.js');
