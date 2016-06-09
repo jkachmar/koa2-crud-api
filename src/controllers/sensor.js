@@ -1,7 +1,7 @@
-import { fetchAllSensors } from '../models/sensor';
+import Sensor from '../models/sensor';
 
 export const getAllSensors = (ctx) => {
-  ctx.body = { users: fetchAllSensors() };
+  ctx.body = { test: 'Test' };
 };
 
 export const addSensor = (ctx) => {

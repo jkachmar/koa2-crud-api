@@ -1,6 +1,13 @@
-const sensors = [
-  1234,
-  1011,
-];
+/* eslint arrow-body-style: ["error", "always"] */
 
-export const fetchAllSensors = () => sensors;
+import db from '../../db/bookshelf';
+import Event from './event';
+
+const Sensor = db.Model.extend({
+  tableName: 'users',
+  events: () => {
+    return this.belongsToMany(Event);
+  },
+});
+
+export default Sensor;

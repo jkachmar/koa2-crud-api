@@ -1,9 +1,9 @@
-import { fetchAllEvents, fetchOneEvent } from '../models/event';
+import Event from '../models/event';
 
 export const getAllEvents = (ctx) => {
-  ctx.body = { events: fetchAllEvents() };
+  ctx.body = { test: 'Test' };
 };
 
 export const getSensorEvents = (ctx) => {
-  ctx.body = { event: fetchOneEvent(ctx.params.id) };
+  ctx.body = { test: 'Test' };
 };

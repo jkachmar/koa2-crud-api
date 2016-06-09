@@ -1,7 +1,13 @@
-const events = [
-  1234,
-  1011,
-];
+/* eslint arrow-body-style: ["error", "always"] */
 
-export const fetchAllEvents = () => events;
-export const fetchOneEvent = (i) => events[i];
+import db from '../../db/bookshelf';
+import Sensor from './sensor';
+
+const Event = db.Model.extend({
+  tableName: 'events',
+  events: () => {
+    return this.hasOne(Sensor);
+  },
+});
+
+export default Event;
