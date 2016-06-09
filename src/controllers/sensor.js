@@ -1,17 +1,20 @@
 import Sensor from '../models/sensor';
 
-export const getAllSensors = (ctx) => {
-  ctx.body = { test: 'Test' };
+async function fetchAllSensors() {
+  return Sensor.forge().fetchAll();
+}
+
+export const getAllSensors = async (ctx) => {
+  const sensor = await fetchAllSensors();
+  ctx.body = sensor.toJSON();
 };
 
 export const addSensor = (ctx) => {
-  if (ctx.response.type === /json/) {
-    ctx.body = '[POST]: new sensor';
-  }
+  ctx.assert(ctx.request.type === 'application/json', 400);
+  ctx.body = '[POST]: new sensor';
 };
 
 export const updateLocation = (ctx) => {
-  if (ctx.response.type === /json/) {
-    ctx.body = '[PUT]: new location';
-  }
+  ctx.assert(ctx.request.type === 'application/json', 400);
+  ctx.body = '[PUT]: new location';
 };

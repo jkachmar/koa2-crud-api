@@ -5,8 +5,9 @@ import Sensor from './sensor';
 
 const Event = db.Model.extend({
   tableName: 'events',
-  events: () => {
-    return this.hasOne(Sensor);
+  hasTimestamp: true,
+  sensor: () => {
+    return this.belongsTo(Sensor);
   },
 });
 
