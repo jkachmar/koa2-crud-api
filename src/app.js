@@ -1,6 +1,7 @@
 import Koa from 'koa';
 import debug from 'debug';
 
+import bodyParserMiddleware from 'koa-body';
 import loggerMiddleware from 'koa-bunyan-logger';
 
 import requestMiddleware from './middleware/request';
@@ -14,6 +15,7 @@ const app = new Koa();
 const d = debug('koa-app:root');
 
 // Register middleware
+app.use(bodyParserMiddleware());
 app.use(loggerMiddleware());
 app.use(requestMiddleware());
 app.use(errorMiddleware());
