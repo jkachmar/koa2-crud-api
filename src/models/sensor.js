@@ -11,15 +11,35 @@ const Sensor = db.Model.extend({
   },
 });
 
-// function checkState(val, sensor, flag, app) {
-//   let newState = sensor[flag];
-//   if (val === 1) {
-//     newState = 'good';
-//   } else if (sensor[flag] !== 'low') {
-//     newState = 'low';
-//     app.emit(`${flag}.update`, sensor.location);
-//   }
-//   return newState;
-// }
+export const fetchAllSensors = async () => {
+  return Sensor.forge().fetchAll();
+};
 
-export default Sensor;
+export const fetchOneSensor = async (sensorId) => {
+  return Sensor.forge().where('uuid', '=', sensorId).fetch();
+};
+
+export const insertSensor = async (sensorId) => {
+  return Sensor.forge({
+    uuid: sensorId,
+    paper_state: 'good',
+    battery_state: 'good',
+  }).save();
+};
+
+export const updateSensor = async (id, pState, bState) => {
+  return Sensor.forge().where('uuid', '=', id)
+    .save({ paper_state: pState,
+            battery_state: bState },
+          { patch: true });
+};
+
+export const checkStatus = (val, sensor, flag) => {
+  let newState = sensor[flag];
+  if (val === 1) {
+    newState = 'good';
+  } else if (sensor[flag] !== 'low') {
+    newState = 'low';
+  }
+  return newState;
+};

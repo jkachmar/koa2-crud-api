@@ -1,20 +1,10 @@
-import Sensor from '../models/sensor';
-
-async function fetchAllSensors() {
-  return Sensor.forge().fetchAll();
-}
-
-async function fetchOneSensor(sensorId) {
-  return Sensor.forge().where('uuid', '=', sensorId).fetch();
-}
-
-async function insertSensor(sensorId) {
-  return Sensor.forge({
-    uuid: sensorId,
-    paper_state: 'good',
-    battery_state: 'good',
-  }).save();
-}
+import {
+  fetchAllSensors,
+  fetchOneSensor,
+  insertSensor,
+  updateSensor,
+  checkStatus,
+} from '../models/sensor';
 
 export const getAllSensors = async (ctx) => {
   const sensor = await fetchAllSensors();
@@ -36,7 +26,17 @@ export const addSensor = async (ctx) => {
   ctx.assert(('lp' in body), 400, 'Payload must contain "lp" field.');
   ctx.assert(('lb' in body), 400, 'Payload must contain "lb" field.');
 
-  ctx.body = sensor.toJSON();
+  const pState = checkStatus(body.lp, sensor, 'paper_state');
+  const bState = checkStatus(body.lb, sensor, 'paper_state');
+
+  if (pState !== sensor.paper_state ||
+      bState !== sensor.battery_state) {
+    updateSensor(body.id, pState, bState);
+  }
+
+  ctx.body = { uuid: body.id,
+               paper_state: pState,
+               battery_state: bState };
 };
 
 export const updateLocation = (ctx) => {
