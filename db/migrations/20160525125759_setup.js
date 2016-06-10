@@ -1,9 +1,9 @@
-'use strict';
+/* eslint arrow-body-style: ["error", "always"] */
 
-exports.up = function(knex) {
+exports.up = (knex) => {
   return knex.schema
   // table of sensors, each with a uuid
-  .createTable('sensors', function(table) {
+  .createTable('sensors', (table) => {
     table.increments('id').primary();
     table.string('location').defaultTo('Unknown');
     table.string('paper_state');
@@ -14,7 +14,7 @@ exports.up = function(knex) {
   })
 
   // table of events associated with a sensor
-  .createTable('events', function(table) {
+  .createTable('events', (table) => {
     table.increments('id').primary();
     table.integer('low_paper_value').notNullable();
     table.integer('low_battery_value').notNullable();
@@ -23,7 +23,7 @@ exports.up = function(knex) {
   });
 };
 
-exports.down = function(knex) {
+exports.down = (knex) => {
   return knex.schema
     .dropTable('events')
     .dropTable('sensors');
