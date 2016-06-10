@@ -1,3 +1,4 @@
+import { insertEvent } from '../models/event';
 import {
   fetchAllSensors,
   fetchOneSensor,
@@ -26,6 +27,8 @@ export const addSensor = async (ctx) => {
 
   ctx.assert(('lp' in body), 400, 'Payload must contain "lp" field.');
   ctx.assert(('lb' in body), 400, 'Payload must contain "lb" field.');
+
+  insertEvent(body);
 
   const pState = checkStatus(body.lp, sensor, 'paper_state');
   const bState = checkStatus(body.lb, sensor, 'paper_state');

@@ -9,7 +9,7 @@ const router = new Router({
 });
 
 router.get('/', Ctrl.getAllEvents);
-router.get('/:id', Ctrl.getSensorEvents);
+router.get('/:uuid', Ctrl.getSensorEvents);
 
 const routes = router.routes();
 const allowedMethods = router.allowedMethods({

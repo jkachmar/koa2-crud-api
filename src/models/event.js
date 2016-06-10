@@ -11,4 +11,18 @@ const Event = db.Model.extend({
   },
 });
 
-export default Event;
+export const insertEvent = async (payload) => {
+  return Event.forge({
+    low_paper_value: payload.lp,
+    low_battery_value: payload.lb,
+    sensor_uuid: payload.id,
+  }).save();
+};
+
+export const fetchAllEvents = async () => {
+  return Event.forge().fetchAll();
+};
+
+export const fetchSensorEvents = async (uuid) => {
+  return Event.forge().where('sensor_uuid', '=', uuid).fetchAll();
+};
