@@ -27,11 +27,16 @@ export const insertSensor = async (sensorId) => {
   }).save();
 };
 
-export const updateSensor = async (id, pState, bState) => {
+export const updateSensorState = async (id, pState, bState) => {
   return Sensor.forge().where('uuid', '=', id)
     .save({ paper_state: pState,
             battery_state: bState },
           { patch: true });
+};
+
+export const updateSensorLocation = async (id, sensorLoc) => {
+  return Sensor.forge().where('uuid', '=', id)
+    .save({ location: sensorLoc }, { patch: true });
 };
 
 export const checkStatus = (val, sensor, flag) => {

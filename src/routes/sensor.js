@@ -10,7 +10,7 @@ const router = new Router({
 
 router.get('/', Ctrl.getAllSensors);
 router.post('/', Ctrl.addSensor);
-router.put('/:id/location', Ctrl.updateLocation);
+router.put('/:uuid/location', Ctrl.updateLocation);
 
 const routes = router.routes();
 const allowedMethods = router.allowedMethods({

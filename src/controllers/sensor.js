@@ -2,7 +2,8 @@ import {
   fetchAllSensors,
   fetchOneSensor,
   insertSensor,
-  updateSensor,
+  updateSensorState,
+  updateSensorLocation,
   checkStatus,
 } from '../models/sensor';
 
@@ -31,7 +32,7 @@ export const addSensor = async (ctx) => {
 
   if (pState !== sensor.paper_state ||
       bState !== sensor.battery_state) {
-    updateSensor(body.id, pState, bState);
+    updateSensorState(body.id, pState, bState);
   }
 
   ctx.body = { uuid: body.id,
@@ -39,7 +40,16 @@ export const addSensor = async (ctx) => {
                battery_state: bState };
 };
 
-export const updateLocation = (ctx) => {
+export const updateLocation = async (ctx) => {
+  const body = ctx.request.body;
+  const sensorUuid = ctx.params.uuid;
+  const sensor = await fetchOneSensor(sensorUuid);
+
   ctx.assert(ctx.request.type === 'application/json', 400);
-  ctx.body = '[PUT]: new location';
+  ctx.assert(sensor, 404, `Sensor ${sensorUuid} not found.`);
+  ctx.assert(('loc' in body), 400, 'Payload must contain "loc" field.');
+
+  updateSensorLocation(sensorUuid, body.loc);
+  ctx.body = { uuid: sensorUuid,
+               location: body.loc };
 };
