@@ -39,12 +39,16 @@
     "npm": "3.9.3"
   },
   "scripts": {
-    "pretest": "npm run lint || true",
+    "pretest": "npm run rollback && npm run migrate && npm run seed",
     "test": "mocha --compilers js:babel-core/register --require babel-polyfill",
     "start": "nodemon src/server.js",
     "build": "babel -d dist/ src/",
     "serve": "node dist/server.js",
+    "postinstall": "npm run build && npm run migrate",
     "lint": "eslint src",
-    "lint:fix": "eslint src --fix"
+    "lint:fix": "eslint src --fix",
+    "migrate": "knex migrate:latest --knexfile dist/db/knexfile.js",
+    "rollback": "knex migrate:rollback --knexfile dist/db/knexfile.js",
+    "seed": "knex seed:run --knexfile dist/db/knexfile.js"
   }
 }
