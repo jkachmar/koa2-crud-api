@@ -1,6 +1,6 @@
 /* eslint arrow-body-style: ["error", "always"] */
 
-import db from '../../db/bookshelf';
+import db from '../db/bookshelf';
 import Sensor from './sensor';
 
 // Event model, has a many-to-one relationship with Sensor
