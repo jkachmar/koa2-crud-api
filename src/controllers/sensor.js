@@ -5,8 +5,8 @@ import {
   insertSensor,
   updateSensorState,
   updateSensorLocation,
-  checkStatus,
 } from '../models/sensor';
+import dispatcher from '../services/dispatcher';
 
 // Gets all sensor from database, responds with a JSON body
 export const getAllSensors = async (ctx) => {
@@ -43,8 +43,8 @@ export const addSensor = async (ctx) => {
   ctx.assert(('lb' in body), 400, 'Payload must contain "lb" field.');
   insertEvent(body);
 
-  const pState = checkStatus(body.lp, sensor.attributes, 'paper_state');
-  const bState = checkStatus(body.lb, sensor.attributes, 'battery_state');
+  const pState = dispatcher(body.lp, sensor.attributes, 'paper_state');
+  const bState = dispatcher(body.lb, sensor.attributes, 'battery_state');
 
   if (pState !== sensor.paper_state ||
       bState !== sensor.battery_state) {

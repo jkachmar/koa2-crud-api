@@ -6,11 +6,11 @@ const sendto = process.env.SENDTO;
 import mailgunFactory from 'mailgun-js';
 const mailgun = mailgunFactory({ apiKey: mailgunKey, domain: mailgunDomain });
 
-export const paperMailer = async (location) => {
+const paperMailer = async (location) => {
   return new Promise((resolve, reject) => {
     if (process.env.NODE_ENV === 'development') {
       const body = `The dispenser in ${location} is running low on paper.`;
-      resolve(body);
+      console.log(body);
     } else {
       const msg = {
         from: sendfrom,
@@ -27,11 +27,11 @@ export const paperMailer = async (location) => {
   });
 };
 
-export const batteryMailer = async (location) => {
+const batteryMailer = async (location) => {
   return new Promise((resolve, reject) => {
     if (process.env.NODE_ENV === 'development') {
       const body = `The dispenser in ${location} needs its batteries replaced.`;
-      resolve(body);
+      console.log(body);
     } else {
       const msg = {
         from: sendfrom,
@@ -47,3 +47,10 @@ export const batteryMailer = async (location) => {
     }
   });
 };
+
+const mailDispatcher = {
+  paper_state: paperMailer,
+  battery_state: batteryMailer,
+};
+
+export default mailDispatcher;
