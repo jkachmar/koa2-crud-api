@@ -2,6 +2,7 @@
 
 import db from '../../db/bookshelf';
 import Event from './event';
+import { paperMailer, batteryMailer } from '../services/mailer';
 
 // Sensor model, has a one-to-many relationship with Events
 const Sensor = db.Model.extend({
@@ -52,6 +53,11 @@ export const checkStatus = (val, sensor, flag) => {
     newState = 'good';
   } else if (sensor[flag] !== 'low') {
     newState = 'low';
+    if (flag === 'paper_state') {
+      paperMailer(sensor.location);
+    } else if (flag === 'battery_state') {
+      batteryMailer(sensor.location);
+    }
   }
   return newState;
 };

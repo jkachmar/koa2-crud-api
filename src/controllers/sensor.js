@@ -22,10 +22,20 @@ export const addSensor = async (ctx) => {
   ctx.assert(('id' in body), 400, 'Payload must contain "id" field.');
 
   // Checks if the sensor exists...
-  const sensor = await fetchOneSensor(body.id);
+  let sensor = await fetchOneSensor(body.id);
   if (!sensor) {
     // ... if it doesn't, insert it and block until finished
     await insertSensor(body.id);
+
+    // no need to query db a second time if we're just using default values
+    sensor = {
+      attributes: {
+        uuid: body.id,
+        paper_state: 'good',
+        battery_state: 'good',
+        location: 'Unknown',
+      },
+    };
   }
 
   // Validate JSON request body and insert sensor event if possible
@@ -33,8 +43,8 @@ export const addSensor = async (ctx) => {
   ctx.assert(('lb' in body), 400, 'Payload must contain "lb" field.');
   insertEvent(body);
 
-  const pState = checkStatus(body.lp, sensor, 'paper_state');
-  const bState = checkStatus(body.lb, sensor, 'paper_state');
+  const pState = checkStatus(body.lp, sensor.attributes, 'paper_state');
+  const bState = checkStatus(body.lb, sensor.attributes, 'battery_state');
 
   if (pState !== sensor.paper_state ||
       bState !== sensor.battery_state) {

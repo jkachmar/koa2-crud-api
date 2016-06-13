@@ -21,6 +21,7 @@
     "koa-bunyan-logger": "~2.0.0-pre1",
     "koa-compose": "~3.1.0",
     "koa-router": "~7.0.1",
+    "mailgun-js": "^0.7.11",
     "pg": "~5.0.0"
   },
   "devDependencies": {
