@@ -1,5 +1,4 @@
 import Router from 'koa-router';
-import Errors from 'boom';
 import compose from 'koa-compose';
 
 import * as Ctrl from '../controllers/event';
@@ -13,15 +12,4 @@ const router = new Router({
 router.get('/', Ctrl.getAllEvents);
 router.get('/:uuid', Ctrl.getSensorEvents);
 
-// Boilerplate for easier error handling with `boom`
-const routes = router.routes();
-const allowedMethods = router.allowedMethods({
-  throw: true,
-  notImplemented: () => new Errors.notImplemented(),
-  methodNotAllowed: () => new Errors.methodNotAllowed(),
-});
-
-export default () => compose([
-  routes,
-  allowedMethods,
-]);
+export default () => router.routes();
