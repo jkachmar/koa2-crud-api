@@ -1,5 +1,4 @@
 import Router from 'koa-router';
-import compose from 'koa-compose';
 
 import * as Ctrl from '../controllers/sensor';
 

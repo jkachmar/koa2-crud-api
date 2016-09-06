@@ -2,7 +2,7 @@
   "env": {
     "mocha": true
   },
-  "extends": "airbnb-base",
+  "extends": "airbnb",
   "parser": "babel-eslint",
   "rules": {
     "no-param-reassign": [
